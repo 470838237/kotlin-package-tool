@@ -1,5 +1,7 @@
 @echo off
-chcp 65001
+::chcp 936  gbk
+::65001 utf-8
+chcp 936
 setlocal enabledelayedexpansion
 set ROOT_PATH=%~dp0
 set GRADLEW_CMD=%ROOT_PATH%../gradlew.bat

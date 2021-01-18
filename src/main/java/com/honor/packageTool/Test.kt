@@ -3,9 +3,9 @@ package com.honor.packageTool
 import com.honor.common.net.DefaultResponse
 import com.honor.common.net.HttpClient
 import com.honor.common.net.ParameterMap
-import com.honor.common.tools.FileUtils
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.nio.charset.Charset
 
 //login -u username -pw password -p platform
 //help
@@ -14,20 +14,15 @@ import kotlinx.coroutines.runBlocking
 
 val actions = arrayOf("login")
 
-fun main(args: Array<String>) {
+fun main(args: Array<String>) = runBlocking {
 
-    println("测试--------")
+
+    var ret = parseArgs(args)
+    launch {
+
+
+    }
 }
-//= runBlocking {
-//
-//
-//
-//    var ret = parseArgs(args)
-//    launch {
-//
-//
-//    }
-//}
 
 fun login(appid: String?, password: String?, platform: String?): String? {
     val params = ParameterMap<String>()
@@ -45,12 +40,14 @@ fun login(appid: String?, password: String?, platform: String?): String? {
         println("login failure:code=${ret.responseCode}\nmessage:${ret.errorMsg}")
         return null
     }
+    println("Charset:"+Charset.defaultCharset().name())
     var retStr = ret.body().string()
-    FileUtils.writeFile(
-        "E:\\Users\\usera\\MyApplication\\PackageTool\\login_ret.txt",
-        retStr,
-        false
-    )
+    retStr = String(retStr.toByteArray(charset("GBK")), charset("GBK"));
+//    FileUtils.writeFile(
+//        "E:\\Users\\usera\\MyApplication\\PackageTool\\login_ret.txt",
+//        retStr,
+//        false
+//    )
     println(retStr)
     return retStr
 }
@@ -59,13 +56,14 @@ fun getArgumentAndPrintError(args: Array<String>, option: String): String? {
     var index = args.indexOf(option)
     if (index == -1) {
         println("缺少参数$option,查看参数详情命令 packager help")
+        println("缺少参数")
         return null
     }
     if (index + 1 > args.size - 1) {
         println("缺少参数$option,查看参数详情命令 packager help")
         return null
     }
-    return args[index+1]
+    return args[index + 1]
 }
 
 fun parseArgs(args: Array<String>): Boolean {
@@ -76,7 +74,7 @@ fun parseArgs(args: Array<String>): Boolean {
             var password = getArgumentAndPrintError(args, "-pw")
             var platform = getArgumentAndPrintError(args, "-p")
 //            if ()
-            
+
             login(appid, password, platform)
         }
         "help" -> {
