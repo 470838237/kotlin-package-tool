@@ -31,7 +31,7 @@ set mainpath=%ROOT_PATH%build\libs\PackageTool.jar
 for /f %%i in ( libpath.txt ) do (
     set cppath=%%i
 )
-java -classpath %cppath% com.honor.packageTool.Main %allparam%
+java -classpath %cppath% com.honor.packageTool.Main %ROOT_PATH% %allparam%
 
 
 
