@@ -5,13 +5,21 @@ set libspath=%ROOT_PATH%build\libs\PackageTool.jar
 set librariesPath=%ROOT_PATH%../.idea/libraries
 echo %libspath%>libpath.txt
 for /f "delims=" %%i in ("%cd%") do set folder=%%~ni
-set moduleimlpath=%ROOT_PATH%../.idea/modules/%folder%/%folder%.iml
-echo %moduleimlpath%
+set moduleimlpath=%ROOT_PATH%../.idea/modules/%folder%
 set moduleimlpath=%moduleimlpath:/=\%
+echo %moduleimlpath%
+dir /b "%moduleimlpath%">tmp.txt
+for /f %%i in (tmp.txt) do (
+    echo %%i
+    if %%i==%folder%.iml ( set n=5 ) else set n=4
+)
+for /r %moduleimlpath% %%i in (*.iml) do ( set moduleimlpath=%%i )
+echo n=%n%%
 if exist %moduleimlpath% (
     type %moduleimlpath% | findstr "<orderEntry\ type=\"library\"" > tmp.txt
-    for /f tokens^=5^ delims^=^" %%i in (tmp.txt) do (
+    for /f tokens^=%n%^ delims^=^" %%i in (tmp.txt) do (
         set item=%%i
+        echo %%i
         set item=!item::=_!
         set item=!item: =_!
         set item=!item:-=_!
