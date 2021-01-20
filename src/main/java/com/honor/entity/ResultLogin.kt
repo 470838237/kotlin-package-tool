@@ -5,7 +5,9 @@ import com.honor.common.net.Result
 
 class ResultLogin : Result() {
     var details: DetailsLogin? = null
-
+    override fun success(): Boolean {
+        return code == "0"
+    }
 }
 
 class DetailsLogin {
@@ -21,7 +23,7 @@ class PackageInfo {
     var name: String? = null
     var version: List<PackageVersion>? = null
     var initdata: InitData? = null
-    var config: PackageConfig? = null
+    var config: ConfigData? = null
 
     @SerializedName("channel_id")
     var channelId: Int? = null

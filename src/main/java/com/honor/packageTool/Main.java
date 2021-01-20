@@ -9,7 +9,7 @@ public class Main {
             System.out.print(item+"\t");
         }
         System.out.println();
-        com.honor.packageTool.TestKt.main(args);
+        com.honor.packageTool.CommandMainKt.main(args);
     }
 
 
